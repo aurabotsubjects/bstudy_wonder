@@ -370,7 +370,7 @@
       <p class="sub" style="margin-bottom:0;">Ten weekly stops from meeting Auggie to the final celebration — every week is built and ready to explore.</p>
     </div>
     <a class="teacher-btn pack" id="downloadWorkbookBtn" href="./Wonder-Book-Club-Student-Workbook.pdf" download style="text-decoration:none;display:inline-flex;align-items:center;">📘 Download student workbook (PDF)</a>
-    <button class="teacher-btn pack" id="downloadTeacherPackBtn">📗 Download teacher pack (planning + marking guide)</button>
+    <a class="teacher-btn pack" id="downloadTeacherPackBtn" href="./Wonder-Book-Club-Teacher-Pack.pdf" download style="text-decoration:none;display:inline-flex;align-items:center;">📗 Download teacher pack (PDF — planning + marking guide)</a>
     <button class="teacher-btn" id="downloadScheduleBtn">📅 Download reading schedule</button>
   </div>
   <div class="trail" id="trail"></div>
@@ -1230,7 +1230,8 @@ function teacherPackHTML(){
   .note{font-size:.8rem;color:#666;margin-top:8px;}
   .toc{background:#f4f4ef;border:1px solid #ddd;border-radius:8px;padding:14px 20px;margin:20px 0;}
   .toc ol{margin:6px 0 0;padding-left:20px;}
-  .cover{text-align:center;padding:60px 0 30px;}
+  .cover{text-align:center;padding:36px 0 30px;}
+  .cover .cover-img{width:100%;max-height:300px;object-fit:cover;border-radius:14px;margin-bottom:22px;box-shadow:0 4px 18px rgba(0,0,0,.18);}
   .cover .eyebrow{color:#d88f22;font-family:'Trebuchet MS',sans-serif;font-weight:bold;letter-spacing:1px;}
   .plan{border:1px solid #ddd;border-radius:8px;padding:10px 16px;margin:10px 0;background:#fffefb;page-break-inside:avoid;break-inside:avoid;}
   .plan h3{margin-top:0;}
@@ -1254,6 +1255,7 @@ function teacherPackHTML(){
 </style></head><body>
 
   <div class="cover">
+    ${IMG().heroBanner ? `<img class="cover-img" src="${IMG().heroBanner}" alt="">` : ''}
     <div class="eyebrow">YEARS 5–6 · TERM BOOK STUDY · NZ CURRICULUM LEVEL 3–4 ENGLISH</div>
     <h1 style="font-size:2rem;">📗 Wonder Book Club — Teacher Pack</h1>
     <p class="lede">Reading schedule, every lesson plan, and a curriculum-linked marking guide with a class achievement tracker, for the full 10-week <em>Wonder</em> unit.</p>
@@ -1523,7 +1525,6 @@ document.getElementById('printLessonBtn').addEventListener('click', printLessonP
 document.getElementById('printPackBtn').addEventListener('click', ()=>openPrint(weekPackHTML()));
 document.getElementById('printRubricBtn').addEventListener('click', printBlankRubric);
 document.getElementById('downloadScheduleBtn').addEventListener('click', downloadReadingSchedule);
-document.getElementById('downloadTeacherPackBtn').addEventListener('click', downloadTeacherPack);
 goToWeek(1);
 </script>
 <script>
