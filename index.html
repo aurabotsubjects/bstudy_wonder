@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Wonder Book Club — Week 1</title>
+<title>Wonder Book Club</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -221,6 +221,9 @@
   .model-answer.show{display:block;}
   .quiz-score{background:var(--navy-deep);color:#fff;border-radius:var(--radius-lg);padding:26px 6vw;text-align:center;margin-top:20px;}
   .quiz-score .num{font-family:'Baloo 2';font-size:2.4rem;color:var(--gold);}
+  .quiz-badge-wrap{position:relative;width:110px;height:110px;margin:0 auto 10px;}
+  .quiz-badge-img{width:100%;height:100%;object-fit:contain;}
+  .quiz-badge-pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-46%);font-family:'Baloo 2';font-weight:800;font-size:1.15rem;color:#7a1a10;}
   .submit-quiz{background:var(--coral);color:#fff;border:none;padding:13px 26px;border-radius:100px;font-weight:700;font-family:'Baloo 2';font-size:1rem;}
 
   /* Projects */
@@ -233,6 +236,44 @@
   .proj-card input{accent-color:var(--gold-dark);}
 
   footer{background:var(--navy-deep);color:#8b9bc6;text-align:center;padding:34px 5vw;font-size:.82rem;}
+
+  /* ---------- Week switcher / banner ---------- */
+  .week-switcher{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+  .week-switcher button{
+    width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);
+    color:#cdd6ef;font-family:'Baloo 2';font-weight:700;font-size:.8rem;padding:0;
+  }
+  .week-switcher button.active{background:var(--gold);color:#1c1500;border-color:var(--gold-dark);}
+  .week-switcher button:hover{border-color:var(--gold);}
+  .week-banner{margin:10px 0 20px;border-radius:var(--radius-sm);overflow:hidden;border:1px solid rgba(255,255,255,.16);max-height:180px;position:relative;z-index:1;}
+  .week-banner img{width:100%;height:180px;object-fit:cover;display:block;}
+  .week-head{position:relative;overflow:hidden;}
+  .week-head .inner{position:relative;z-index:1;}
+  .week-badge{width:30px;height:30px;object-fit:contain;vertical-align:-6px;margin-left:6px;border-radius:50%;}
+  .precepts-bg{position:absolute;inset:0;display:none;pointer-events:none;}
+  .precepts-bg img{width:100%;height:100%;object-fit:cover;opacity:.14;}
+  .precepts-bg.show{display:block;}
+  .week10-banner{border-radius:var(--radius-lg);overflow:hidden;margin-bottom:20px;}
+  .week10-banner img{width:100%;height:180px;object-fit:cover;display:block;}
+
+  /* ---------- Printable certificate ---------- */
+  .cert-page{
+    position:relative;width:100%;max-width:1000px;aspect-ratio:3/2;margin:0 auto;
+    background-size:cover;background-position:center;background-repeat:no-repeat;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;page-break-inside:avoid;break-inside:avoid;
+  }
+  .cert-inner{position:absolute;inset:15% 12% 14% 12%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:'Baloo 2',sans-serif;}
+  .cert-title{font-size:1.7rem;color:#12203d;margin:0 0 4px;}
+  .cert-sub{font-size:.85rem;color:#444;font-family:'Atkinson Hyperlegible',sans-serif;}
+  .cert-name-line{border-bottom:2px solid #999;min-width:62%;margin:14px 0;height:1.6rem;}
+  .cert-badge{width:64px;height:64px;margin-top:10px;}
+  .cert-footer{display:flex;justify-content:space-between;width:82%;margin-top:18px;font-size:.72rem;color:#555;font-family:'Atkinson Hyperlegible',sans-serif;}
+
+  /* ---------- Recurring icon images ---------- */
+  .day-tab .ic-img{width:28px;height:28px;object-fit:contain;border-radius:6px;flex-shrink:0;}
+  .proj-card .ic-img{width:34px;height:34px;object-fit:contain;border-radius:8px;}
+  .btn-icon{width:16px;height:16px;object-fit:contain;margin-right:6px;vertical-align:-3px;border-radius:3px;}
+  .kicker-icon{width:20px;height:20px;object-fit:contain;vertical-align:-4px;margin-right:5px;border-radius:4px;}
 
   /* ---------- Logo & pattern ---------- */
   .brand img.logo-mark{width:26px;height:26px;object-fit:contain;}
@@ -298,7 +339,7 @@
   <div class="brand"><img class="logo-mark" id="logoMarkImg" src="" alt=""> Wonder Book Club</div>
   <nav>
     <button class="active" data-nav="landing">Home</button>
-    <button data-nav="week1">Week 1</button>
+    <button data-nav="week1" id="weekNavBtn">Week 1</button>
     <button data-nav="rubric">Rubric</button>
   </nav>
 </nav>
@@ -311,7 +352,7 @@
     <h1>Wonder.<br>Ten weeks. One class.<br>Choose kind.</h1>
     <p class="lede">A term-long reading journey through R.J. Palacio's <em>Wonder</em> — read-aloud slides, group worksheets, Friday quizzes and weekly projects, all in one place for you and your class.</p>
     <div class="hero-cta">
-      <button class="btn btn-gold" onclick="goTo('week1')">Start Week 1 →</button>
+      <button class="btn btn-gold" onclick="goToWeek(1)">Start Week 1 →</button>
       <button class="btn btn-ghost" onclick="document.getElementById('roadmap').scrollIntoView()">See the full term</button>
     </div>
   </div>
@@ -326,20 +367,24 @@
   <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;">
     <div>
       <h2 style="margin-bottom:6px;">Your term at a glance</h2>
-      <p class="sub" style="margin-bottom:0;">Ten weekly stops from meeting Auggie to the final celebration. Week 1 is ready to explore — the rest unlock as you build them out.</p>
+      <p class="sub" style="margin-bottom:0;">Ten weekly stops from meeting Auggie to the final celebration — every week is built and ready to explore.</p>
     </div>
     <a class="teacher-btn pack" id="downloadWorkbookBtn" href="./Wonder-Book-Club-Student-Workbook.pdf" download style="text-decoration:none;display:inline-flex;align-items:center;">📘 Download student workbook (PDF)</a>
+    <button class="teacher-btn pack" id="downloadTeacherPackBtn">📗 Download teacher pack (planning + marking guide)</button>
     <button class="teacher-btn" id="downloadScheduleBtn">📅 Download reading schedule</button>
   </div>
   <div class="trail" id="trail"></div>
 </section>
 
-<!-- ================= WEEK 1 ================= -->
+<!-- ================= WEEK VIEW (dynamic — shows whichever week is selected) ================= -->
 <section id="week1">
   <div class="week-head">
+    <div class="precepts-bg" id="preceptsBg"><img src="" alt=""></div>
     <div class="inner">
-      <div class="eyebrow">WEEK 1 · MEETING AUGGIE</div>
-      <h2>Meeting Auggie</h2>
+      <div class="week-switcher" id="weekSwitcher"></div>
+      <div class="eyebrow" id="weekEyebrow">WEEK 1 · MEETING AUGGIE</div>
+      <h2 id="weekTitle"><span id="weekTitleText">Meeting Auggie</span><img id="weekBadgeImg" class="week-badge" src="" alt="" style="display:none;"></h2>
+      <div class="week-banner"><img id="weekBannerImg" src="" alt=""></div>
       <div class="li-box">
         <div><b>Learning Intention</b><span id="liText"></span></div>
         <div><b>Success Criteria</b><span id="scText"></span></div>
@@ -349,7 +394,7 @@
 
   <div class="teacher-toolbar">
     <button class="teacher-btn" id="printLessonBtn">🖨 Print today's lesson plan</button>
-    <button class="teacher-btn pack" id="printPackBtn">📦 Print Week Pack (all-in-one)</button>
+    <button class="teacher-btn pack" id="printPackBtn"><img class="btn-icon" id="printPackIcon" src="" alt="">Print Week Pack (all-in-one)</button>
   </div>
 
   <div class="day-tabs" id="dayTabs"></div>
@@ -376,22 +421,14 @@
 
 <div id="printStage" class="printable"></div>
 
-<footer>Wonder Book Club — built from your Week 1 unit plan. NZ Curriculum, Level 3–4 English.</footer>
+<footer>Wonder Book Club — a 10-week term unit built from your Wonder book study blueprint. NZ Curriculum, Level 3–4 English.</footer>
 
+<script src="wonder-images.js"></script>
+<script src="wonder-content.js"></script>
 <script>
 /* ============ DATA ============ */
-const weeks = [
-  {n:1,title:"Meeting Auggie",theme:"First day",unlocked:true},
-  {n:2,title:"Choose Kind",theme:"Precepts",unlocked:false},
-  {n:3,title:"Halloween",theme:"New voices",unlocked:false},
-  {n:4,title:"Via's World",theme:"The Plague",unlocked:false},
-  {n:5,title:"Jack's Choice",theme:"Loyalty",unlocked:false},
-  {n:6,title:"Switching Tables",theme:"The play",unlocked:false},
-  {n:7,title:"Growing Up",theme:"Via's secret",unlocked:false},
-  {n:8,title:"Miranda's Secret",theme:"The retreat",unlocked:false},
-  {n:9,title:"The Ending",theme:"Awards Day",unlocked:false},
-  {n:10,title:"Celebration",theme:"Final project",unlocked:false},
-];
+const WEEKS_META = window.WEEKS_META;
+const WEEK10 = window.WEEK10;
 
 const week1 = {
   learningIntention:"We can identify how a character's perspective shapes how a story is told, and infer a character's feelings from what they say and don't say.",
@@ -401,7 +438,7 @@ const week1 = {
     range:"Ordinary → Christopher's House",
     leadIn:["If a genie granted you one wish, what would it be — and why?","Do you think everyone's answer would be different?"],
     comprehension:[
-      "Why does August say he's \u201cnot an ordinary kid\u201d but also feels ordinary inside?",
+      "Why does August say he's “not an ordinary kid” but also feels ordinary inside?",
       "What does this tell us about the difference between how people see us and how we see ourselves?",
       "Why do you think August avoids describing exactly what he looks like?"
     ],
@@ -426,7 +463,7 @@ const week1 = {
     range:"Jack Will, Julian, and Charlotte → The Deal",
     leadIn:["If you had to show a new student around your school, what three things would you point out first?"],
     comprehension:[
-      "What is \u201cthe deal\u201d Mr. Tushman makes, and why might that be a smart plan — or an unfair one?",
+      "What is “the deal” Mr. Tushman makes, and why might that be a smart plan — or an unfair one?",
       "Compare Jack, Julian, and Charlotte's first reactions to August — what's different about each?"
     ],
     goAway:"Predict which of the three kids will become August's real friend. Give one clue from the text to back up your guess.",
@@ -439,7 +476,7 @@ const week1 = {
     leadIn:["Think of your own first day at a new place (school, club, team). What worried you most?"],
     comprehension:[
       "Why might August feel both excited and terrified on the night before school?",
-      "What does the \u201ccombination lock\u201d scene reveal about how nervous he is?"
+      "What does the “combination lock” scene reveal about how nervous he is?"
     ],
     goAway:"Write a short diary entry as August, the night before his first day.",
     rubric:["R4","R5","R7"],
@@ -452,35 +489,40 @@ const week1 = {
   }
 };
 
-const projects = [
-  {icon:"🖼️", title:"Poster", desc:"Design a \u201cWelcome to Beecher Prep\u201d poster from Mr. Tushman's office, including at least 3 things a new student should know."},
+const projects1 = [
+  {icon:"🖼️", title:"Poster", desc:"Design a “Welcome to Beecher Prep” poster from Mr. Tushman's office, including at least 3 things a new student should know."},
   {icon:"💬", title:"Comic strip", desc:"6-panel comic showing August's morning routine before his first day of school."},
   {icon:"🎭", title:"Drama scene", desc:"Act out the car ride to school (Driving) in groups of 3 — August, Mum, Dad — showing the mixed emotions."},
   {icon:"📓", title:"Journal reflection", desc:"Write a letter from August to his future self, to be read on his last day of Year 5."}
 ];
 
 const quiz1 = [
-  {type:"mc", q:"What does August say makes him \u201cordinary\u201d?", opts:["He does ordinary kid things: eats ice cream, rides his bike, plays video games","He has an ordinary looking face","He goes to an ordinary school","He has an ordinary house"], correct:0},
+  {type:"mc", q:"What does August say makes him “ordinary”?", opts:["He does ordinary kid things: eats ice cream, rides his bike, plays video games","He has an ordinary looking face","He goes to an ordinary school","He has an ordinary house"], correct:0},
   {type:"mc", q:"How many surgeries has August had by the story's start?", opts:["15","27","32","9"], correct:1},
   {type:"mc", q:"Why has August never been to a real school before?", opts:["His family couldn't afford school","There was no school near his house","His surgeries and his parents' choice to homeschool him","He was too advanced academically"], correct:2},
   {type:"mc", q:"Who is Christopher?", opts:["August's cousin","August's neighbour","August's teacher","August's childhood best friend, who moved away"], correct:3},
   {type:"mc", q:"What game did August and Christopher love playing together?", opts:["Chess","Star Wars, with action figures/lightsabers","Basketball","Board games only"], correct:1},
   {type:"mc", q:"What school is August about to start at?", opts:["Beecher Prep","Elm Street Elementary","Riverside School","Wonder Academy"], correct:0},
   {type:"short", q:"What joke does August's dad make before the school visit?", model:"About Mr. Tushman's funny surname over the loudspeaker."},
-  {type:"mc", q:"Who works the front desk and everyone calls \u201cMrs. G\u201d?", opts:["Mrs. Garcia","Mrs. Tushman","Mrs. Will","Mrs. Albans"], correct:0},
+  {type:"mc", q:"Who works the front desk and everyone calls “Mrs. G”?", opts:["Mrs. Garcia","Mrs. Tushman","Mrs. Will","Mrs. Albans"], correct:0},
   {type:"short", q:"Name the three students Mr. Tushman picks to show August around.", model:"Jack Will, Julian, and Charlotte."},
-  {type:"short", q:"What is \u201cthe deal\u201d Mr. Tushman makes with the three students?", model:"He asks them to be welcoming, show August around, and be kind to him."},
+  {type:"short", q:"What is “the deal” Mr. Tushman makes with the three students?", model:"He asks them to be welcoming, show August around, and be kind to him."},
   {type:"short", q:"Which of the three seems most reluctant or awkward about meeting August?", model:"Accept reasoned answers — e.g. Julian seems standoffish."},
   {type:"short", q:"What does August worry about most on the night before school starts?", model:"Fitting in, being stared at, whether kids will be nice."},
-  {type:"mc", q:"What object does August struggle with the night before school (mentioned in \u201cLocks\u201d)?", opts:["His backpack zipper","His shoelaces","His combination lock","His watch"], correct:2},
+  {type:"mc", q:"What object does August struggle with the night before school (mentioned in “Locks”)?", opts:["His backpack zipper","His shoelaces","His combination lock","His watch"], correct:2},
   {type:"short", q:"Inference: Why might August's parents have waited until Year 5 (age 10) to send him to school?", model:"Accept reasoned answers: enough surgeries were done, they wanted to protect him, they felt he was ready."},
   {type:"short", q:"Inference: What does it suggest about August's character that he still makes jokes with his dad despite being nervous?", model:"Accept reasoned answers: good sense of humour, resilience, close family bond."},
-  {type:"mc", q:"Vocabulary: What does \u201cpetrified\u201d mean, as August uses it about starting school?", opts:["Extremely frightened","Extremely tired","Turned to stone","Very excited"], correct:0},
+  {type:"mc", q:"Vocabulary: What does “petrified” mean, as August uses it about starting school?", opts:["Extremely frightened","Extremely tired","Turned to stone","Very excited"], correct:0},
   {type:"mc", q:"True or False: August has an older sister named Via.", opts:["True","False"], correct:0},
   {type:"short", q:"Why do you think the author chose to start the book from August's own point of view?", model:"Accept reasoned answers: to build empathy, to show his inner ordinary self before others judge his appearance."},
-  {type:"short", q:"In your own words, what is \u201cThe Deal\u201d really asking the three students to do, and why might that be hard for a Year 5 student?", model:"Open answer — mark for understanding of peer pressure and social risk."},
+  {type:"short", q:"In your own words, what is “The Deal” really asking the three students to do, and why might that be hard for a Year 5 student?", model:"Open answer — mark for understanding of peer pressure and social risk."},
   {type:"short", q:"Reflection: In your own words, describe how August might be feeling as he walks into Beecher Prep for the very first time.", model:"Open answer — mark for empathy and use of textual evidence."}
 ];
+
+/* Merge Week 1 (hardcoded) with Weeks 2-9 (loaded from wonder-content.js) */
+const WEEK_CONTENT = Object.assign({1: week1}, window.WEEK_CONTENT_2_9 || {});
+const PROJECTS = Object.assign({1: projects1}, window.PROJECTS_2_9 || {});
+const QUIZZES = Object.assign({1: quiz1}, window.QUIZZES_2_9 || {});
 
 const NZC_ALIGNMENT = {
   strands:[
@@ -497,7 +539,7 @@ const NZC_ALIGNMENT = {
   ],
   competencies:"Relating to Others, Thinking, Managing Self, Participating & Contributing",
   values:"Diversity, inclusion, empathy, respect — supporting the NZC vision of confident, connected, actively involved, lifelong learners.",
-  cross:"Health & PE — Relationships and Hauora (wellbeing), especially around the \u201cChoose Kind\u201d theme."
+  cross:"Health & PE — Relationships and Hauora (wellbeing), especially around the “Choose Kind” theme."
 };
 
 const TIMING = ["5 min · Settle & lead-in","15–20 min · Reading","15 min · Comprehension/inference","5 min · Go-away reflection"];
@@ -513,10 +555,77 @@ const RUBRIC_CRITERIA = [
   {code:"R7", strand:"Key Competency · Relating to Others", title:"Working with others", ev:"Listens, takes turns and responds respectfully during group reading and discussion."},
   {code:"R8", strand:"Key Competency · Thinking", title:"Critical & creative thinking", ev:"Asks questions, makes predictions and reasons through inference tasks."},
   {code:"R9", strand:"Key Competency · Participating & Contributing", title:"Taking part", ev:"Completes tasks, contributes to group work and engages with weekly projects."},
-  {code:"R10", strand:"Values · Diversity, Inclusion, Empathy, Respect", title:"\u201cChoose Kind\u201d values", ev:"Shows empathy and makes connections to kindness/inclusion themes in discussion and writing."}
+  {code:"R10", strand:"Values · Diversity, Inclusion, Empathy, Respect", title:"“Choose Kind” values", ev:"Shows empathy and makes connections to kindness/inclusion themes in discussion and writing."}
 ];
 
+/* ============ MARKING GUIDE (teacher pack) — 3-level version with exemplars ============
+   A simplified, classroom-friendly version of the 10 rubric criteria above, for quick and
+   consistent marking: Not Achieved / Working Towards / Achieved, each with a short example
+   of what that actually looks like from a student, so marking stays fast and unambiguous. */
+const MARKING_LEVELS = ["Not Achieved","Working Towards","Achieved"];
+const MARKING_GUIDE = [
+  {code:"R1", title:"Understanding ideas in the text", strand:"Listening, Reading & Viewing — Ideas",
+   expectation:"Shows understanding of ideas within, across, and beyond texts (NZC Level 3–4).",
+   notAchieved:"Retells simple events from the story but cannot identify a character's feelings or the ideas behind them, even with prompting.",
+   workingTowards:"Identifies a character's feelings or a key idea with some prompting, but explanations are vague or not clearly linked to evidence from the text.",
+   achieved:"Clearly identifies characters' feelings, motivations and ideas within, across and beyond the text, and supports this with specific evidence — e.g. explains why August feels “ordinary” inside despite how others see him, using a direct example from the chapter."},
+  {code:"R2", title:"How the text is shaped", strand:"Listening, Reading & Viewing — Structure & Language",
+   expectation:"Shows understanding of how texts are shaped for different purposes and audiences (NZC Level 3–4).",
+   notAchieved:"Does not notice or comment on how the story is structured (e.g. chapter titles, multiple narrators), even when asked directly.",
+   workingTowards:"Notices an obvious structural feature (e.g. that Via narrates Part Two) but cannot yet explain why the author made that choice.",
+   achieved:"Explains how the author's choices — multiple narrators, chapter titles, changing points of view — shape the reader's understanding, e.g. explains why seeing events through Via's eyes changes what we know about August's family."},
+  {code:"R3", title:"Comprehension strategies", strand:"Listening, Reading & Viewing — Processes & Strategies",
+   expectation:"Integrates sources of information, processes, and strategies confidently to identify, form and express ideas (NZC Level 3–4).",
+   notAchieved:"Rarely predicts or questions the text; needs the answer given rather than working it out.",
+   workingTowards:"Makes simple predictions or asks questions about the text, but these are not always well reasoned or linked to clues in the story.",
+   achieved:"Confidently uses prediction, inference and questioning to build understanding, e.g. predicts which character will become August's real friend and backs it up with a specific clue from the text."},
+  {code:"R4", title:"Communicating ideas", strand:"Speaking, Writing & Presenting — Ideas",
+   expectation:"Selects, forms, and communicates ideas on a range of topics (NZC Level 3–4).",
+   notAchieved:"Written or spoken responses are very brief, off-topic, or do not answer the question asked.",
+   workingTowards:"Shares an idea in response to a question, but it is underdeveloped or only partly relevant.",
+   achieved:"Selects and communicates a clear, relevant idea in response to questions and discussion, developing it with detail or reasoning, e.g. writes a well-developed go-away reflection that stays on topic and includes personal detail."},
+  {code:"R5", title:"Using language features", strand:"Speaking, Writing & Presenting — Structure & Language",
+   expectation:"Shows understanding of language features, using them appropriately (NZC Level 3–4).",
+   notAchieved:"Writing shows little control of vocabulary, voice or sentence structure appropriate to the task, e.g. cannot write convincingly “in character.”",
+   workingTowards:"Attempts to use appropriate vocabulary or voice (e.g. writing as August or Via) but this is inconsistent through the piece.",
+   achieved:"Uses vocabulary, voice and sentence structure appropriate to the task — e.g. writes a diary entry convincingly in a character's voice, sustained through the whole piece."},
+  {code:"R6", title:"Communicating with confidence", strand:"Speaking, Writing & Presenting — Processes & Strategies",
+   expectation:"Selects and uses processes and strategies to communicate confidently (NZC Level 3–4).",
+   notAchieved:"Struggles to complete written tasks (e.g. the Friday quiz) independently and with confidence, even with support.",
+   workingTowards:"Completes most written tasks and quiz questions but needs some support or reassurance to finish confidently.",
+   achieved:"Plans, drafts and completes written tasks and quiz responses independently and confidently, including under timed/quiz conditions."},
+  {code:"R7", title:"Working with others", strand:"Key Competency — Relating to Others",
+   expectation:"Listens, takes turns and responds respectfully during group reading and discussion.",
+   notAchieved:"Struggles to take turns or listen respectfully during group reading; often distracts or disengages the group.",
+   workingTowards:"Takes turns and listens most of the time, but sometimes needs a reminder to include others or stay on task.",
+   achieved:"Consistently listens, takes turns fairly and responds respectfully to others' ideas during group reading and discussion."},
+  {code:"R8", title:"Critical & creative thinking", strand:"Key Competency — Thinking",
+   expectation:"Asks questions, makes predictions and reasons through inference tasks.",
+   notAchieved:"Rarely asks questions or offers reasoning; accepts the first idea given without thinking further.",
+   workingTowards:"Sometimes asks questions or offers a reasoned idea, but doesn't always explain the thinking behind it.",
+   achieved:"Regularly asks thoughtful questions, makes reasoned predictions and explains their thinking clearly during inference tasks."},
+  {code:"R9", title:"Taking part", strand:"Key Competency — Participating & Contributing",
+   expectation:"Completes tasks, contributes to group work and engages with weekly projects.",
+   notAchieved:"Rarely completes tasks or contributes to group work or the weekly project without significant prompting.",
+   workingTowards:"Completes most tasks and contributes to group work/projects, but engagement is inconsistent.",
+   achieved:"Reliably completes tasks, contributes ideas to group work and engages fully with the weekly project menu."},
+  {code:"R10", title:"“Choose Kind” values", strand:"Values — Diversity, Inclusion, Empathy, Respect",
+   expectation:"Shows empathy and makes connections to kindness/inclusion themes in discussion and writing.",
+   notAchieved:"Rarely makes connections to kindness/inclusion themes in discussion or writing; shows little empathy for characters different from themselves.",
+   workingTowards:"Sometimes makes a connection to the “Choose Kind” theme, but empathy or insight is surface-level, e.g. states a character is “sad” without explaining why.",
+   achieved:"Consistently shows empathy and makes thoughtful connections between the book's kindness/inclusion themes and real life, both in discussion and in writing."}
+];
+
+/* Recurring icon-image lookups */
+const DAY_ICON_IMG = {teach:"iconTeacherRead", group:"iconGroupRead", quiz:"iconQuizDay", present:"presentationDayIcon"};
+const PROJECT_ICON_IMG = ["iconPoster","iconComic","iconDrama","iconJournal"];
+function IMG(){ return window.WONDER_IMAGES || {}; }
+function imgTag(key, cls){ const src = IMG()[key]; return src ? `<img class="${cls}" src="${src}" alt="">` : ""; }
+
 /* ============ NAV ============ */
+let currentWeek = 1;
+let currentDay = 'mon';
+
 function goTo(id){
   document.querySelectorAll('#topnav nav button').forEach(b=>b.classList.toggle('active', b.dataset.nav===id));
   document.getElementById('week1').classList.toggle('show', id==='week1');
@@ -524,36 +633,109 @@ function goTo(id){
   const target = id==='landing' ? document.getElementById('landing') : document.getElementById(id);
   target.scrollIntoView({behavior:'smooth'});
 }
-document.querySelectorAll('#topnav nav button').forEach(b=>b.addEventListener('click',()=>goTo(b.dataset.nav)));
+document.querySelectorAll('#topnav nav button').forEach(b=>b.addEventListener('click',()=>{
+  if(b.dataset.nav==='week1'){ goToWeek(currentWeek); } else { goTo(b.dataset.nav); }
+}));
+
+function goToWeek(n){
+  currentWeek = n;
+  currentDay = 'mon';
+  updateWeekHead(n);
+  buildWeekSwitcher();
+  buildDayTabs();
+  render();
+  goTo('week1');
+}
 
 /* ============ ROADMAP ============ */
 const trail = document.getElementById('trail');
-weeks.forEach(w=>{
+WEEKS_META.forEach(w=>{
   const div = document.createElement('div');
-  div.className = 'stop' + (w.unlocked ? ' unlocked' : '');
-  div.innerHTML = `<div class="node">${w.unlocked ? w.n : '🔒'}</div>
+  div.className = 'stop unlocked';
+  div.innerHTML = `<div class="node">${w.n}</div>
     <div class="label">Week ${w.n}</div>
-    <div class="theme">${w.unlocked ? w.title : 'Coming soon'}</div>`;
-  if(w.unlocked) div.querySelector('.node').addEventListener('click',()=>goTo('week1'));
+    <div class="theme">${w.title}</div>`;
+  div.querySelector('.node').addEventListener('click',()=>goToWeek(w.n));
   trail.appendChild(div);
 });
+
+/* ============ WEEK SWITCHER + HEAD ============ */
+function buildWeekSwitcher(){
+  const wrap = document.getElementById('weekSwitcher');
+  wrap.innerHTML = WEEKS_META.map(w=>`<button data-n="${w.n}" class="${w.n===currentWeek?'active':''}">${w.n}</button>`).join('');
+  wrap.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>goToWeek(parseInt(b.dataset.n))));
+}
+
+function updateWeekHead(n){
+  const meta = WEEKS_META.find(w=>w.n===n);
+  document.getElementById('weekEyebrow').textContent = `WEEK ${n} · ${meta.title.toUpperCase()}`;
+  document.getElementById('weekTitleText').textContent = meta.title;
+  document.getElementById('weekNavBtn').textContent = `Week ${n}`;
+  const bannerSrc = IMG()[meta.banner] || '';
+  document.getElementById('weekBannerImg').src = bannerSrc;
+  document.getElementById('weekBannerImg').alt = meta.title + ' banner';
+
+  // "Choose Kind" badge — shown on Week 2 (the precepts/Choose Kind week)
+  const badgeImg = document.getElementById('weekBadgeImg');
+  if(n===2 && IMG().choiceKindBadge){
+    badgeImg.src = IMG().choiceKindBadge;
+    badgeImg.alt = 'Choose Kind badge';
+    badgeImg.style.display = '';
+  } else {
+    badgeImg.style.display = 'none';
+  }
+
+  // Precepts-wall decorative background — Week 2 only
+  const preceptsBg = document.getElementById('preceptsBg');
+  if(n===2 && IMG().preceptsWallBg){
+    preceptsBg.querySelector('img').src = IMG().preceptsWallBg;
+    preceptsBg.classList.add('show');
+  } else {
+    preceptsBg.classList.remove('show');
+  }
+
+  const li = n===10 ? WEEK10.learningIntention : WEEK_CONTENT[n].learningIntention;
+  const sc = n===10 ? WEEK10.successCriteria : WEEK_CONTENT[n].successCriteria;
+  document.getElementById('liText').textContent = li;
+  document.getElementById('scText').textContent = sc;
+  document.getElementById('printPackIcon').src = IMG().iconPrintAll || '';
+  // Week 10 has no per-day lesson-plan / quiz in the usual sense
+  document.getElementById('printLessonBtn').style.display = (n===10) ? 'none' : '';
+}
 
 /* ============ DAY TABS ============ */
 const dayTabs = document.getElementById('dayTabs');
 const dayPanel = document.getElementById('dayPanel');
 const dayOrder = ['mon','tue','wed','thu','fri'];
-let currentDay = 'mon';
 
-dayOrder.forEach(k=>{
-  const d = week1[k];
-  const btn = document.createElement('button');
-  btn.className = 'day-tab' + (k===currentDay ? ' active':'');
-  btn.dataset.mode = d.mode;
-  btn.dataset.day = k;
-  btn.innerHTML = `<span class="ic">${d.icon}</span><span><span class="t" style="display:block">${d.label}</span><span class="m">${d.modeLabel}</span></span>`;
-  btn.addEventListener('click',()=>selectDay(k));
-  dayTabs.appendChild(btn);
-});
+function dayDefsForWeek(n){
+  if(n===10){
+    return [
+      Object.assign({key:'mon',mode:'project'}, WEEK10.lessons[0]),
+      Object.assign({key:'tue',mode:'project'}, WEEK10.lessons[1]),
+      Object.assign({key:'wed',mode:'project'}, WEEK10.lessons[2]),
+      Object.assign({key:'thu',mode:'present'}, WEEK10.presentDay),
+      Object.assign({key:'fri',mode:'celebrate'}, WEEK10.celebrateDay)
+    ];
+  }
+  return dayOrder.map(k=>Object.assign({key:k}, WEEK_CONTENT[n][k]));
+}
+
+function buildDayTabs(){
+  dayTabs.innerHTML = '';
+  const defs = dayDefsForWeek(currentWeek);
+  defs.forEach(d=>{
+    const btn = document.createElement('button');
+    btn.className = 'day-tab' + (d.key===currentDay ? ' active':'');
+    btn.dataset.mode = d.mode;
+    btn.dataset.day = d.key;
+    const iconImgKey = DAY_ICON_IMG[d.mode];
+    const iconHTML = iconImgKey && IMG()[iconImgKey] ? `<img class="ic-img" src="${IMG()[iconImgKey]}" alt="">` : `<span class="ic">${d.icon}</span>`;
+    btn.innerHTML = `${iconHTML}<span><span class="t" style="display:block">${d.label}</span><span class="m">${d.modeLabel}</span></span>`;
+    btn.addEventListener('click',()=>selectDay(d.key));
+    dayTabs.appendChild(btn);
+  });
+}
 
 function selectDay(k){
   currentDay = k;
@@ -562,20 +744,23 @@ function selectDay(k){
 }
 
 function render(){
-  const d = week1[currentDay];
-  if(d.mode==='teach') renderSlideshow(d);
-  else if(d.mode==='group') renderWorksheet(d, currentDay);
-  else renderQuizDay();
+  if(currentWeek===10){ renderWeek10Day(currentDay); return; }
+  const d = WEEK_CONTENT[currentWeek][currentDay];
+  if(d.mode==='teach') renderSlideshow(d, currentWeek);
+  else if(d.mode==='group') renderWorksheet(d, currentDay, currentWeek);
+  else renderQuizDay(currentWeek);
 }
 
 /* ============ SLIDESHOW (Mon/Wed) ============ */
-function renderSlideshow(d){
+function renderSlideshow(d, weekN){
+  const leadInIcon = imgTag('iconLeadIn','kicker-icon');
+  const goAwayIcon = imgTag('iconGoAway','kicker-icon');
   const slides = [];
   slides.push(`<div class="kicker">${d.label} · ${d.modeLabel}</div><h3>${d.range}</h3><span class="page-range">Reading range for this chunk</span>`);
-  slides.push(`<div class="kicker">💡 Lead-in</div>` + d.leadIn.map(q=>`<h3>${q}</h3>`).join(''));
-  slides.push(`<div class="kicker">Now reading…</div><h3>${d.range}</h3><p>Read aloud together. Encourage the class to notice how August describes himself versus how others react to him.</p><span class="page-range">⏱ 15–20 minutes</span>`);
+  slides.push(`<div class="kicker">${leadInIcon}Lead-in</div>` + d.leadIn.map(q=>`<h3>${q}</h3>`).join(''));
+  slides.push(`<div class="kicker">Now reading…</div><h3>${d.range}</h3><p>Read aloud together. Encourage the class to notice how each character's perspective shapes what they say and don't say.</p><span class="page-range">⏱ 15–20 minutes</span>`);
   slides.push(`<div class="kicker">🧠 Comprehension &amp; inference</div><ul>${d.comprehension.map(q=>`<li>${q}</li>`).join('')}</ul>`);
-  slides.push(`<div class="kicker">👣 Go-away reflection</div><h3>${d.goAway}</h3><p>Record this in your reading journal before you pack up.</p><span class="page-range">📊 Rubric: ${d.rubric.join(', ')} — see today's lesson plan</span>`);
+  slides.push(`<div class="kicker">${goAwayIcon}Go-away reflection</div><h3>${d.goAway}</h3><p>Record this in your reading journal before you pack up.</p><span class="page-range">📊 Rubric: ${d.rubric.join(', ')} — see today's lesson plan</span>`);
 
   let idx = 0;
   function paint(){
@@ -594,18 +779,16 @@ function renderSlideshow(d){
     dayPanel.querySelector('#prevBtn').onclick = ()=>{ if(idx>0){idx--; paint();} };
     dayPanel.querySelector('#nextBtn').onclick = ()=>{
       if(idx<slides.length-1){idx++; paint();}
-      else { selectProjectsScroll(); }
+      else { renderProjectsInline(weekN); }
     };
   }
   paint();
 }
 
-function selectProjectsScroll(){
-  renderProjectsInline();
-}
-
 /* ============ WORKSHEET (Tue/Thu) ============ */
-function renderWorksheet(d, key){
+function renderWorksheet(d, key, weekN){
+  const leadInIcon = imgTag('iconLeadIn','kicker-icon');
+  const goAwayIcon = imgTag('iconGoAway','kicker-icon');
   dayPanel.innerHTML = `
     <div class="worksheet-toggle">
       <button id="onscreenBtn" class="active">🖥 On-screen</button>
@@ -626,12 +809,12 @@ function renderWorksheet(d, key){
         ${names.map((n,i)=>`<span class="name ${i===0?'on':''}" data-i="${i}">${n}</span>`).join('')}
         <button id="rotateBtn" style="margin-left:6px;background:none;border:1.5px dashed var(--line);border-radius:100px;padding:6px 12px;font-size:.78rem;">Rotate turn →</button>
       </div>
-      <h4 class="gold">💡 Lead-in</h4>
-      ${d.leadIn.map((q,i)=>qBlock('leadin',key,i,q)).join('')}
+      <h4 class="gold">${leadInIcon}Lead-in</h4>
+      ${d.leadIn.map((q,i)=>qBlock('leadin',key,i,q,weekN)).join('')}
       <h4 class="gold">🧠 Comprehension &amp; inference</h4>
-      ${d.comprehension.map((q,i)=>qBlock('comp',key,i,q)).join('')}
-      <h4 class="gold">👣 Go-away reflection</h4>
-      ${qBlock('goaway',key,0,d.goAway)}
+      ${d.comprehension.map((q,i)=>qBlock('comp',key,i,q,weekN)).join('')}
+      <h4 class="gold">${goAwayIcon}Go-away reflection</h4>
+      ${qBlock('goaway',key,0,d.goAway,weekN)}
       <p class="save-note">✓ Answers save automatically in this browser.</p>
       <p class="save-note">📊 Rubric checkpoint: ${d.rubric.join(', ')} — ${d.rubricNote}</p>
     </div>
@@ -650,7 +833,7 @@ function renderWorksheet(d, key){
   };
 
   const printView = document.getElementById('printView');
-  printView.innerHTML = worksheetSheetHTML(d) + `
+  printView.innerHTML = worksheetSheetHTML(d, weekN) + `
     <div style="text-align:center;margin-top:16px;">
       <button class="btn btn-gold" style="color:#1c1500;" onclick="window.print()">Print this worksheet</button>
     </div>
@@ -668,17 +851,17 @@ function renderWorksheet(d, key){
   };
 }
 
-function qBlock(section,key,i,text){
-  const storageKey = `wonder_w1_${key}_${section}_${i}`;
+function qBlock(section,key,i,text,weekN){
+  const storageKey = `wonder_w${weekN}_${key}_${section}_${i}`;
   return `<div class="q-block">
     <p class="q">${text}</p>
     <textarea data-key="${storageKey}" placeholder="Type your answer…"></textarea>
   </div>`;
 }
 
-function worksheetSheetHTML(d){
+function worksheetSheetHTML(d, weekN){
   return `<div class="sheet">
-      <h3>Week 1 · ${d.label} — ${d.range}</h3>
+      <h3>Week ${weekN} · ${d.label} — ${d.range}</h3>
       <p><b>Names:</b> ______________________________________________</p>
       <p><b>💡 Lead-in</b></p>
       ${d.leadIn.map(q=>`<p>${q}</p><div class="line"></div>`).join('')}
@@ -691,13 +874,15 @@ function worksheetSheetHTML(d){
 }
 
 /* ============ QUIZ (Fri) ============ */
-function renderQuizDay(){
+function renderQuizDay(weekN){
+  const quiz = QUIZZES[weekN];
+  const friD = WEEK_CONTENT[weekN].fri;
   dayPanel.innerHTML = `
     <div class="quiz-topbar">
-      <h4 class="coral" style="margin:0;">📝 Friday Quiz — Week 1</h4>
+      <h4 class="coral" style="margin:0;">📝 Friday Quiz — Week ${weekN}</h4>
       <label class="toggle-pill"><input type="checkbox" id="instantFeedback" checked> Show feedback instantly</label>
     </div>
-    <p class="save-note" style="margin:-10px 0 16px;">📊 Rubric checkpoint: ${week1.fri.rubric.join(', ')} — ${week1.fri.rubricNote}</p>
+    <p class="save-note" style="margin:-10px 0 16px;">📊 Rubric checkpoint: ${friD.rubric.join(', ')} — ${friD.rubricNote}</p>
     <div id="quizList"></div>
     <div style="text-align:center;margin-top:10px;">
       <button class="submit-quiz" id="submitQuiz">Submit quiz</button>
@@ -706,13 +891,13 @@ function renderQuizDay(){
   `;
 
   const list = document.getElementById('quizList');
-  quiz1.forEach((q,i)=>{
+  quiz.forEach((q,i)=>{
     const card = document.createElement('div');
     card.className = 'qcard';
     card.dataset.i = i;
     if(q.type==='mc'){
       card.innerHTML = `
-        <div class="qn">Question ${i+1} of ${quiz1.length}</div>
+        <div class="qn">Question ${i+1} of ${quiz.length}</div>
         <p class="qtext">${q.q}</p>
         <div class="opts">
           ${q.opts.map((o,oi)=>`<label><input type="radio" name="q${i}" value="${oi}"> ${o}</label>`).join('')}
@@ -721,7 +906,7 @@ function renderQuizDay(){
       `;
     } else {
       card.innerHTML = `
-        <div class="qn">Question ${i+1} of ${quiz1.length} · Open answer</div>
+        <div class="qn">Question ${i+1} of ${quiz.length} · Open answer</div>
         <p class="qtext">${q.q}</p>
         <div class="short-answer"><textarea placeholder="Type your answer…"></textarea></div>
         <button class="reveal-btn" type="button">Show sample answer</button>
@@ -745,7 +930,7 @@ function renderQuizDay(){
 
   document.getElementById('submitQuiz').onclick = ()=>{
     let score=0, total=0;
-    quiz1.forEach((q,i)=>{
+    quiz.forEach((q,i)=>{
       if(q.type!=='mc') return;
       total++;
       const card = list.querySelector(`.qcard[data-i="${i}"]`);
@@ -753,8 +938,16 @@ function renderQuizDay(){
       const val = sel ? parseInt(sel.value) : -1;
       if(markOne(card,q,val)) score++;
     });
+    const pct = total ? Math.round((score/total)*100) : 0;
+    const badgeSrc = IMG().quizChampionBadge;
+    const badgeHTML = badgeSrc ? `
+        <div class="quiz-badge-wrap">
+          <img class="quiz-badge-img" src="${badgeSrc}" alt="Quiz champion badge">
+          <div class="quiz-badge-pct">${pct}%</div>
+        </div>` : '';
     document.getElementById('quizResult').innerHTML = `
       <div class="quiz-score">
+        ${badgeHTML}
         <div class="num">${score} / ${total}</div>
         <div>auto-marked multiple-choice score — open-answer questions are self-checked against the sample answers above</div>
       </div>`;
@@ -773,26 +966,99 @@ function markOne(card,q,val){
 }
 
 /* ============ PROJECTS (shown after slideshow / always accessible) ============ */
-function renderProjectsInline(){
+function renderProjectsInline(weekN){
+  const projects = PROJECTS[weekN];
   const wrap = document.createElement('div');
   wrap.style.marginTop = '28px';
   wrap.innerHTML = `
     <h4 style="font-family:'Baloo 2';font-size:1.1rem;color:var(--ink);margin-bottom:10px;">🎨 This week's project menu — choose one</h4>
     <div class="proj-grid">
-      ${projects.map((p,i)=>`
+      ${projects.map((p,i)=>{
+        const imgKey = PROJECT_ICON_IMG[i];
+        const iconHTML = imgKey && IMG()[imgKey] ? `<img class="ic-img" src="${IMG()[imgKey]}" alt="">` : `<div class="ic">${p.icon}</div>`;
+        return `
         <div class="proj-card">
-          <div class="ic">${p.icon}</div>
+          ${iconHTML}
           <h5>${p.title}</h5>
           <p>${p.desc}</p>
           <label><input type="checkbox" class="projChk" data-i="${i}"> Mark as chosen</label>
-        </div>`).join('')}
+        </div>`;
+      }).join('')}
     </div>`;
   dayPanel.appendChild(wrap);
   wrap.querySelectorAll('.projChk').forEach(c=>{
-    const key = 'wonder_w1_proj_'+c.dataset.i;
+    const key = `wonder_w${weekN}_proj_`+c.dataset.i;
     c.checked = localStorage.getItem(key)==='1';
     c.addEventListener('change', ()=>localStorage.setItem(key, c.checked?'1':'0'));
   });
+}
+
+/* ============ WEEK 10 — FINAL PROJECT WEEK ============ */
+function renderWeek10Day(key){
+  const defs = dayDefsForWeek(10);
+  const d = defs.find(x=>x.key===key);
+
+  if(d.mode==='project'){
+    dayPanel.innerHTML = `
+      <div class="card">
+        <h4 class="gold">${d.icon} ${d.title}</h4>
+        <p>${d.desc}</p>
+        <p class="save-note">⏱ ${d.time} · No new reading this week — students apply everything they've learned.</p>
+      </div>
+      <div id="week10Options" style="margin-top:22px;"></div>
+    `;
+    renderWeek10Options();
+  } else if(d.mode==='present'){
+    const bannerHTML = IMG().finalProjectBanner ? `<div class="week10-banner"><img src="${IMG().finalProjectBanner}" alt="Final project gallery day"></div>` : '';
+    dayPanel.innerHTML = `
+      ${bannerHTML}
+      <div class="card">
+        <h4 class="coral">${d.icon} ${d.title}</h4>
+        <p>${d.desc}</p>
+      </div>
+      <div id="week10Rubric" style="margin-top:22px;"></div>
+    `;
+    renderWeek10Rubric();
+  } else {
+    dayPanel.innerHTML = `
+      <div class="card">
+        <h4 class="gold">${d.icon} ${d.title}</h4>
+        <p>${d.desc}</p>
+        <div style="margin-top:16px;">
+          <button class="teacher-btn pack" id="printCertBtn"><img class="btn-icon" src="${IMG().certificateBorder||''}" alt="">Print blank certificates</button>
+        </div>
+      </div>
+    `;
+    const certBtn = document.getElementById('printCertBtn');
+    if(certBtn) certBtn.addEventListener('click', printCertificate);
+  }
+}
+
+function renderWeek10Options(){
+  const wrap = document.getElementById('week10Options');
+  wrap.innerHTML = `
+    <h4 style="font-family:'Baloo 2';font-size:1.1rem;color:var(--ink);margin-bottom:10px;">🎯 Final Project Options — choose one</h4>
+    <div class="proj-grid">
+      ${WEEK10.options.map((p,i)=>`
+        <div class="proj-card">
+          <h5>${p.title}</h5>
+          <p>${p.desc}</p>
+          <label><input type="checkbox" class="week10Chk" data-i="${i}"> Mark as chosen</label>
+        </div>`).join('')}
+    </div>`;
+  wrap.querySelectorAll('.week10Chk').forEach(c=>{
+    const key = 'wonder_w10_proj_'+c.dataset.i;
+    c.checked = localStorage.getItem(key)==='1';
+    c.addEventListener('change', ()=>localStorage.setItem(key, c.checked?'1':'0'));
+  });
+}
+
+function renderWeek10Rubric(){
+  const wrap = document.getElementById('week10Rubric');
+  wrap.innerHTML = `
+    <h4 style="font-family:'Baloo 2';font-size:1.05rem;color:var(--ink);margin-bottom:10px;">📋 Final Project Rubric</h4>
+    <table class="rubric-table"><thead><tr><th>Criteria</th><th>Emerging</th><th>Achieving</th><th>Excelling</th></tr></thead>
+    <tbody>${WEEK10.rubric.map(r=>`<tr><td class="crit"><b>${r.criteria}</b></td><td>${r.emerging}</td><td>${r.achieving}</td><td>${r.excelling}</td></tr>`).join('')}</tbody></table>`;
 }
 
 /* ============ PRINT STAGE HELPER ============ */
@@ -816,15 +1082,21 @@ function nzcBoxHTML(){
 
 /* ============ DOWNLOADABLE READING SCHEDULE ============ */
 function downloadReadingSchedule(){
-  const dayRows = dayOrder.map(k=>{
-    const d = week1[k];
-    if(d.mode==='quiz'){
-      return `<tr><td>${d.label}</td><td>Quiz day — no new reading</td><td>Friday Quiz covering Monday–Thursday's reading</td></tr>`;
-    }
-    const modeName = d.mode==='teach' ? 'Teacher reads aloud (whole class)' : 'Group reading (students take turns)';
-    return `<tr><td>${d.label}</td><td>${d.range}</td><td>${modeName}</td></tr>`;
-  }).join('');
-  const termRows = weeks.map(w=>`<tr><td>Week ${w.n}</td><td>${w.unlocked ? w.title : 'Coming soon'}</td><td>${w.unlocked ? w.theme : '—'}</td></tr>`).join('');
+  const weekSection = (n)=>{
+    const dayRows = dayOrder.map(k=>{
+      const d = WEEK_CONTENT[n][k];
+      if(d.mode==='quiz'){
+        return `<tr><td>${d.label}</td><td>Quiz day — no new reading</td><td>Friday Quiz covering Monday–Thursday's reading</td></tr>`;
+      }
+      const modeName = d.mode==='teach' ? 'Teacher reads aloud (whole class)' : 'Group reading (students take turns)';
+      return `<tr><td>${d.label}</td><td>${d.range}</td><td>${modeName}</td></tr>`;
+    }).join('');
+    const meta = WEEKS_META.find(w=>w.n===n);
+    return `<h2>Week ${n} — ${meta.title} (day by day)</h2>
+      <table><thead><tr><th>Day</th><th>Reading range</th><th>How it's read</th></tr></thead><tbody>${dayRows}</tbody></table>`;
+  };
+  const allWeeks = [1,2,3,4,5,6,7,8,9].map(weekSection).join('');
+  const termRows = WEEKS_META.map(w=>`<tr><td>Week ${w.n}</td><td>${w.title}</td><td>${w.theme}</td></tr>`).join('');
   const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Wonder Book Club — Reading Schedule</title>
 <style>
   body{font-family:Georgia,'Times New Roman',serif;max-width:760px;margin:36px auto;padding:0 20px;color:#1c1f2b;line-height:1.55;}
@@ -840,12 +1112,11 @@ function downloadReadingSchedule(){
 </style></head><body>
   <h1>📖 Wonder Book Club — Reading Schedule</h1>
   <p class="lede">How much the class reads, and when, across the term.</p>
-  <h2>Week 1 — Meeting Auggie (day by day)</h2>
-  <table><thead><tr><th>Day</th><th>Reading range</th><th>How it's read</th></tr></thead><tbody>${dayRows}</tbody></table>
-  <p class="note">Each Monday–Thursday lesson runs ~45 minutes: 5 min lead-in, 15–20 min reading, 15 min comprehension/inference, 5 min reflection. Friday is quiz day — no new reading.</p>
+  ${allWeeks}
+  <p class="note">Each Monday–Thursday lesson runs ~45 minutes: 5 min lead-in, 15–20 min reading, 15 min comprehension/inference, 5 min reflection. Friday is quiz day — no new reading. Week 10 has no new reading — it's the final project and celebration week.</p>
   <h2>Full term overview</h2>
   <table><thead><tr><th>Week</th><th>Book section covered</th><th>Theme</th></tr></thead><tbody>${termRows}</tbody></table>
-  <p class="note">Downloaded from the Wonder Book Club app. Weeks 2–10 will show their own day-by-day reading ranges once those weeks are built out.</p>
+  <p class="note">Downloaded from the Wonder Book Club app.</p>
 </body></html>`;
   const blob = new Blob([html], {type:'text/html'});
   const url = URL.createObjectURL(blob);
@@ -858,23 +1129,206 @@ function downloadReadingSchedule(){
   setTimeout(()=>URL.revokeObjectURL(url), 2000);
 }
 
-/* ============ TEACHER LESSON PLANS ============ */
-function lessonPlanSheetHTML(key){
-  const d = week1[key];
+/* ============ TEACHER PACK (planning + marking guide, standalone download) ============ */
+function teacherPackDayPlanHTML(weekN, d, quiz){
   if(d.mode === 'quiz'){
-    const mcCount = quiz1.filter(q=>q.type==='mc').length;
+    const mcCount = quiz.filter(q=>q.type==='mc').length;
+    return `<div class="plan">
+      <h3>Week ${weekN} · ${d.label} — Quiz Day</h3>
+      <p class="timing"><b>Timing:</b> 5 min recap · 25 min quiz · 10 min review answers · 5 min project check-in</p>
+      <p>20 questions covering all four reading chunks this week (${mcCount} auto-marked multiple-choice, ${quiz.length-mcCount} open-answer/self-checked). See the in-app "Print Week Pack" for the full student copy and teacher answer key.</p>
+      <p class="rubric-line"><b>📊 Rubric checkpoint (${d.rubric.join(', ')}):</b> ${d.rubricNote}</p>
+    </div>`;
+  }
+  const modeName = d.mode==='teach' ? 'Teacher Read' : 'Group Read';
+  return `<div class="plan">
+    <h3>Week ${weekN} · ${d.label} — ${modeName}</h3>
+    <p class="timing"><b>Reading range:</b> ${d.range} &nbsp;|&nbsp; <b>Timing:</b> ${TIMING.join(' · ')}</p>
+    <p><b>💡 Lead-in:</b> ${d.leadIn.join(' ')}</p>
+    <p><b>🧠 Comprehension &amp; inference:</b> ${d.comprehension.join(' ')}</p>
+    <p><b>👣 Go-away reflection:</b> ${d.goAway}</p>
+    <p class="rubric-line"><b>📊 Rubric checkpoint (${d.rubric.join(', ')}):</b> ${d.rubricNote}</p>
+  </div>`;
+}
+
+function teacherPackWeek10PlanHTML(){
+  const defs = dayDefsForWeek(10);
+  const rows = defs.map(d=>`<div class="plan">
+      <h3>Week 10 · ${d.label} — ${d.title}</h3>
+      <p>${d.desc}</p>
+    </div>`).join('');
+  return `<div class="plan"><h3>Week 10 — Final Project &amp; Celebration overview</h3>
+    <p><b>Learning Intention:</b> ${WEEK10.learningIntention}</p>
+    <p><b>Success Criteria:</b> ${WEEK10.successCriteria}</p>
+    <p><b>Final project options (student choice):</b></p>
+    <ul>${WEEK10.options.map(o=>`<li><b>${o.title}.</b> ${o.desc}</li>`).join('')}</ul>
+  </div>${rows}`;
+}
+
+function teacherPackHTML(){
+  // Reading schedule (all 10 weeks)
+  const scheduleRows = (n)=>{
+    if(n===10) return `<tr><td>Week 10</td><td colspan="2">Final project &amp; celebration week — no new reading</td></tr>`;
+    const dayRows = dayOrder.map(k=>{
+      const d = WEEK_CONTENT[n][k];
+      if(d.mode==='quiz') return `<tr><td>Wk${n} ${d.label}</td><td>Quiz day — no new reading</td><td>Friday Quiz</td></tr>`;
+      const modeName = d.mode==='teach' ? 'Teacher reads aloud' : 'Group reading';
+      return `<tr><td>Wk${n} ${d.label}</td><td>${d.range}</td><td>${modeName}</td></tr>`;
+    }).join('');
+    return dayRows;
+  };
+  const scheduleBody = [1,2,3,4,5,6,7,8,9].map(scheduleRows).join('') + scheduleRows(10);
+  const termRows = WEEKS_META.map(w=>`<tr><td>Week ${w.n}</td><td>${w.title}</td><td>${w.theme}</td></tr>`).join('');
+
+  // All lesson plans, week by week
+  const allPlans = [1,2,3,4,5,6,7,8,9].map(n=>{
+    const weekTitle = WEEKS_META.find(w=>w.n===n).title;
+    const dayPlans = dayOrder.map(k=>teacherPackDayPlanHTML(n, WEEK_CONTENT[n][k], QUIZZES[n])).join('');
+    return `<div class="week-block">
+      <h2>Week ${n} — ${weekTitle}</h2>
+      <p class="li-sc"><b>Learning Intention:</b> ${WEEK_CONTENT[n].learningIntention}<br><b>Success Criteria:</b> ${WEEK_CONTENT[n].successCriteria}</p>
+      ${dayPlans}
+    </div>`;
+  }).join('') + `<div class="week-block">${teacherPackWeek10PlanHTML()}</div>`;
+
+  // Marking guide — 3-level exemplars
+  const markingGuide = MARKING_GUIDE.map(m=>`
+    <div class="guide-card">
+      <h3>${m.code} — ${m.title}</h3>
+      <p class="strand">${m.strand}</p>
+      <p class="expectation"><b>Curriculum expectation:</b> ${m.expectation}</p>
+      <table class="levels">
+        <tr><th>Not Achieved</th><th>Working Towards</th><th>Achieved</th></tr>
+        <tr><td>${m.notAchieved}</td><td>${m.workingTowards}</td><td><b>${m.achieved}</b></td></tr>
+      </table>
+    </div>`).join('');
+
+  // Class achievement tracker — one blank table per criterion, 28 blank student rows, 3 tick columns
+  const blankRows = (count)=>Array.from({length:count}, ()=>`<tr><td class="nameline">&nbsp;</td><td class="tick">☐</td><td class="tick">☐</td><td class="tick">☐</td></tr>`).join('');
+  const trackerTables = MARKING_GUIDE.map(m=>`
+    <div class="tracker-block">
+      <h3>${m.code} — ${m.title}</h3>
+      <p class="strand">${m.strand}</p>
+      <table class="tracker">
+        <thead><tr><th>Student name</th><th>Not Achieved</th><th>Working Towards</th><th>Achieved</th></tr></thead>
+        <tbody>${blankRows(28)}</tbody>
+      </table>
+    </div>`).join('');
+
+  const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Wonder Book Club — Teacher Pack</title>
+<style>
+  body{font-family:Georgia,'Times New Roman',serif;max-width:900px;margin:36px auto;padding:0 20px;color:#1c1f2b;line-height:1.55;}
+  h1{font-family:'Trebuchet MS',sans-serif;color:#12203d;margin-bottom:2px;}
+  h2{font-family:'Trebuchet MS',sans-serif;color:#d88f22;border-bottom:2px solid #eee;padding-bottom:5px;margin-top:40px;page-break-before:always;}
+  h1+p+h2{page-break-before:avoid;}
+  h3{font-family:'Trebuchet MS',sans-serif;color:#12203d;margin:18px 0 4px;font-size:1.02rem;}
+  p.lede,p.sub{color:#555;margin-top:0;}
+  table{width:100%;border-collapse:collapse;margin-top:8px;}
+  th,td{border:1px solid #ccc;padding:7px 9px;text-align:left;font-size:.86rem;vertical-align:top;}
+  th{background:#12203d;color:#fff;}
+  tr:nth-child(even) td{background:#faf8f2;}
+  .note{font-size:.8rem;color:#666;margin-top:8px;}
+  .toc{background:#f4f4ef;border:1px solid #ddd;border-radius:8px;padding:14px 20px;margin:20px 0;}
+  .toc ol{margin:6px 0 0;padding-left:20px;}
+  .cover{text-align:center;padding:60px 0 30px;}
+  .cover .eyebrow{color:#d88f22;font-family:'Trebuchet MS',sans-serif;font-weight:bold;letter-spacing:1px;}
+  .plan{border:1px solid #ddd;border-radius:8px;padding:10px 16px;margin:10px 0;background:#fffefb;page-break-inside:avoid;break-inside:avoid;}
+  .plan h3{margin-top:0;}
+  .plan .timing{font-size:.82rem;color:#555;}
+  .plan .rubric-line{background:#fdf3e0;border-left:3px solid #d88f22;padding:6px 10px;font-size:.82rem;margin:8px 0 0;}
+  .week-block{margin-bottom:10px;}
+  .li-sc{font-size:.88rem;background:#eef2fb;border-radius:6px;padding:8px 12px;}
+  .guide-card{border:1px solid #ccc;border-radius:8px;padding:12px 16px;margin:16px 0;page-break-inside:avoid;break-inside:avoid;}
+  .guide-card .strand{font-size:.76rem;text-transform:uppercase;letter-spacing:.4px;color:#2e9ca6;font-weight:bold;margin:0 0 4px;}
+  .guide-card .expectation{font-size:.86rem;color:#333;background:#f4f4ef;border-radius:6px;padding:6px 10px;}
+  table.levels th{background:#eee;color:#333;font-size:.76rem;text-transform:uppercase;text-align:center;}
+  table.levels td{font-size:.82rem;width:33.33%;}
+  table.levels td b{color:#1a7a34;}
+  .tracker-block{margin:20px 0;page-break-inside:avoid;break-inside:avoid;}
+  table.tracker th{font-size:.78rem;text-align:center;}
+  table.tracker th:first-child{text-align:left;}
+  table.tracker td.nameline{border-bottom:1px solid #999;height:1.4em;}
+  table.tracker td.tick{text-align:center;font-size:1.05rem;width:14%;}
+  .howto{background:#eef7f8;border-left:3px solid #2e9ca6;padding:10px 14px;border-radius:0 6px 6px 0;font-size:.86rem;margin:14px 0;}
+  @media print{ body{margin:0;} .toc{page-break-after:always;} }
+</style></head><body>
+
+  <div class="cover">
+    <div class="eyebrow">YEARS 5–6 · TERM BOOK STUDY · NZ CURRICULUM LEVEL 3–4 ENGLISH</div>
+    <h1 style="font-size:2rem;">📗 Wonder Book Club — Teacher Pack</h1>
+    <p class="lede">Reading schedule, every lesson plan, and a curriculum-linked marking guide with a class achievement tracker, for the full 10-week <em>Wonder</em> unit.</p>
+  </div>
+
+  <div class="toc">
+    <b>What's inside</b>
+    <ol>
+      <li>Reading &amp; chapter schedule (all 10 weeks)</li>
+      <li>Every lesson plan (Weeks 1–10)</li>
+      <li>Marking guide — curriculum expectations with exemplars (3 levels)</li>
+      <li>Class achievement tracker (one blank table per criterion, with tick boxes)</li>
+    </ol>
+  </div>
+
+  <h2 style="page-break-before:avoid;">1 · Reading &amp; Chapter Schedule</h2>
+  <p class="sub">How much the class reads, and when, across the term.</p>
+  <table><thead><tr><th>Day</th><th>Reading range</th><th>How it's read</th></tr></thead><tbody>${scheduleBody}</tbody></table>
+  <p class="note">Each Monday–Thursday lesson runs ~45 minutes: 5 min lead-in, 15–20 min reading, 15 min comprehension/inference, 5 min reflection. Friday is quiz day — no new reading. Week 10 has no new reading — it's the final project and celebration week.</p>
+  <h3>Full term overview</h3>
+  <table><thead><tr><th>Week</th><th>Book section covered</th><th>Theme</th></tr></thead><tbody>${termRows}</tbody></table>
+
+  <h2>2 · Lesson Plans — Weeks 1–10</h2>
+  <p class="sub">Learning intention, success criteria, reading range, questions, and rubric checkpoint for every lesson.</p>
+  ${allPlans}
+
+  <h2>3 · Marking Guide — Curriculum Expectations &amp; Exemplars</h2>
+  <div class="howto">
+    <b>How to use this guide:</b> Each of the 10 criteria below is drawn from the NZ Curriculum alignment for this unit (Listening/Reading/Viewing, Speaking/Writing/Presenting, Key Competencies, and Values). For each one, mark students against just three levels — <b>Not Achieved</b>, <b>Working Towards</b>, or <b>Achieved</b> — using the example description in each column as your guide to what that actually looks like from a student. You don't need to judge every criterion every week: each lesson plan above flags which 2–3 codes it gives the best evidence for.
+  </div>
+  ${markingGuide}
+
+  <h2>4 · Class Achievement Tracker</h2>
+  <div class="howto">
+    <b>How to use this tracker:</b> Write your students' names down the left-hand column (photocopy extra rows or an extra copy of a page if your class is larger than 28), then tick the box that matches what you've observed for that criterion — <b>Not Achieved</b>, <b>Working Towards</b>, or <b>Achieved</b> — as the term progresses. Use it alongside the exemplars in Section 3 so marking stays quick and consistent between criteria.
+  </div>
+  ${trackerTables}
+
+  <p class="note" style="margin-top:30px;">Downloaded from the Wonder Book Club app — built from your Wonder book study blueprint.</p>
+</body></html>`;
+  return html;
+}
+
+function downloadTeacherPack(){
+  const html = teacherPackHTML();
+  const blob = new Blob([html], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'Wonder-Book-Club-Teacher-Pack.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 2000);
+}
+
+/* ============ TEACHER LESSON PLANS ============ */
+function lessonPlanSheetHTML(weekN, key){
+  const d = WEEK_CONTENT[weekN][key];
+  const wk = WEEK_CONTENT[weekN];
+  if(d.mode === 'quiz'){
+    const quiz = QUIZZES[weekN];
+    const mcCount = quiz.filter(q=>q.type==='mc').length;
     return `<div class="sheet">
       <div class="lp-head">
-        <span class="tag">WEEK 1</span><span class="tag">FRIDAY</span><span class="tag">QUIZ DAY</span>
+        <span class="tag">WEEK ${weekN}</span><span class="tag">FRIDAY</span><span class="tag">QUIZ DAY</span>
         <h3 style="margin:8px 0 0;">Teacher Lesson Plan — Friday Quiz</h3>
       </div>
       <div class="lp-grid">
-        <div><b>Learning Intention</b>${week1.learningIntention}</div>
-        <div><b>Success Criteria</b>${week1.successCriteria}</div>
+        <div><b>Learning Intention</b>${wk.learningIntention}</div>
+        <div><b>Success Criteria</b>${wk.successCriteria}</div>
       </div>
       ${nzcBoxHTML()}
       <h4 class="sec">Quiz overview</h4>
-      <p>20 questions covering all four reading chunks from Week 1 (${mcCount} auto-marked multiple-choice, ${quiz1.length-mcCount} open-answer/self-checked). Student copy has no answers visible; a full answer key is included in the teacher appendix when printing the Week Pack.</p>
+      <p>20 questions covering all four reading chunks from Week ${weekN} (${mcCount} auto-marked multiple-choice, ${quiz.length-mcCount} open-answer/self-checked). Student copy has no answers visible; a full answer key is included in the teacher appendix when printing the Week Pack.</p>
       <h4 class="sec">Suggested timing</h4>
       <div class="timing-row"><span>5 min · Recap the week</span><span>25 min · Quiz</span><span>10 min · Review answers together</span><span>5 min · Project menu check-in</span></div>
       <div class="rubric-flag">📊 <b>Rubric checkpoint (${d.rubric.join(', ')}):</b> ${d.rubricNote}</div>
@@ -883,13 +1337,13 @@ function lessonPlanSheetHTML(key){
   const modeName = d.mode==='teach' ? 'Teacher Read' : 'Group Read';
   return `<div class="sheet">
     <div class="lp-head">
-      <span class="tag">WEEK 1</span><span class="tag">${d.label.toUpperCase()}</span><span class="tag">${modeName.toUpperCase()}</span>
+      <span class="tag">WEEK ${weekN}</span><span class="tag">${d.label.toUpperCase()}</span><span class="tag">${modeName.toUpperCase()}</span>
       <h3 style="margin:8px 0 0;">Teacher Lesson Plan — ${d.label}</h3>
       <p style="margin:4px 0 0;color:#555;">Reading range: ${d.range}</p>
     </div>
     <div class="lp-grid">
-      <div><b>Learning Intention</b>${week1.learningIntention}</div>
-      <div><b>Success Criteria</b>${week1.successCriteria}</div>
+      <div><b>Learning Intention</b>${wk.learningIntention}</div>
+      <div><b>Success Criteria</b>${wk.successCriteria}</div>
     </div>
     ${nzcBoxHTML()}
     <h4 class="sec">Timing breakdown (45 min lesson)</h4>
@@ -904,13 +1358,31 @@ function lessonPlanSheetHTML(key){
   </div>`;
 }
 
-function printLessonPlan(key){
-  openPrint(lessonPlanSheetHTML(key));
+function week10SheetHTML(key){
+  const defs = dayDefsForWeek(10);
+  const d = defs.find(x=>x.key===key);
+  return `<div class="sheet">
+    <div class="lp-head">
+      <span class="tag">WEEK 10</span><span class="tag">${d.label.toUpperCase()}</span>
+      <h3 style="margin:8px 0 0;">${d.title}</h3>
+    </div>
+    <div class="lp-grid">
+      <div><b>Learning Intention</b>${WEEK10.learningIntention}</div>
+      <div><b>Success Criteria</b>${WEEK10.successCriteria}</div>
+    </div>
+    <p>${d.desc}</p>
+  </div>`;
+}
+
+function printLessonPlan(){
+  if(currentWeek===10){ openPrint(week10SheetHTML(currentDay)); }
+  else { openPrint(lessonPlanSheetHTML(currentWeek, currentDay)); }
 }
 
 /* ============ QUIZ & PROJECTS PRINT SHEETS ============ */
-function quizPrintHTML(withAnswers){
-  const items = quiz1.map((q,i)=>{
+function quizPrintHTML(weekN, withAnswers){
+  const quiz = QUIZZES[weekN];
+  const items = quiz.map((q,i)=>{
     if(q.type==='mc'){
       return `<div class="qprint"><p><b>${i+1}.</b> ${q.q}</p>
         <p style="margin:2px 0 6px 18px;">${q.opts.map((o,oi)=>`${String.fromCharCode(65+oi)}) ${o}`).join('&nbsp;&nbsp;&nbsp;')}</p>
@@ -920,39 +1392,54 @@ function quizPrintHTML(withAnswers){
       ${withAnswers?`<p style="margin:0 0 6px 18px;color:#1a7a34;"><b>Sample answer:</b> ${q.model}</p>`:`<div class="line"></div><div class="line"></div>`}</div>`;
   }).join('');
   return `<div class="sheet" style="page-break-inside:auto;">
-    <h3>Week 1 · Friday Quiz ${withAnswers?'— Teacher Answer Key':'— Student Copy'}</h3>
+    <h3>Week ${weekN} · Friday Quiz ${withAnswers?'— Teacher Answer Key':'— Student Copy'}</h3>
     <p><b>Name:</b> ______________________________________________</p>
     ${items}
   </div>`;
 }
 
-function projectsPrintHTML(){
+function projectsPrintHTML(weekN){
+  const projects = PROJECTS[weekN];
   return `<div class="sheet">
-    <h3>Week 1 · Project Menu — choose one</h3>
+    <h3>Week ${weekN} · Project Menu — choose one</h3>
     ${projects.map(p=>`<p><b>${p.icon} ${p.title}.</b> ${p.desc}</p>`).join('<div class="line"></div>')}
   </div>`;
 }
 
 /* ============ WEEK PACK (single print job) ============ */
 function weekPackHTML(){
+  if(currentWeek===10){
+    let out = `<div class="sheet">
+      <h3 style="font-size:1.5rem;">Wonder Book Club — Week 10 Pack</h3>
+      <p>Final Project &amp; Celebration — everything you need to run the last week of the unit.</p>
+      <p><b>Learning Intention:</b> ${WEEK10.learningIntention}</p>
+      <p><b>Success Criteria:</b> ${WEEK10.successCriteria}</p>
+    </div>`;
+    out += `<div class="page-break sheet"><h3>Final Project Options</h3>${WEEK10.options.map(p=>`<p><b>${p.title}.</b> ${p.desc}</p>`).join('<div class="line"></div>')}</div>`;
+    dayDefsForWeek(10).forEach(d=>{ out += `<div class="page-break">${week10SheetHTML(d.key)}</div>`; });
+    out += `<div class="page-break sheet"><h3>Final Project Rubric</h3><table class="rubric-table"><thead><tr><th>Criteria</th><th>Emerging</th><th>Achieving</th><th>Excelling</th></tr></thead><tbody>${WEEK10.rubric.map(r=>`<tr><td class="crit"><b>${r.criteria}</b></td><td>${r.emerging}</td><td>${r.achieving}</td><td>${r.excelling}</td></tr>`).join('')}</tbody></table></div>`;
+    return out;
+  }
+  const weekN = currentWeek;
+  const wk = WEEK_CONTENT[weekN];
   let out = `<div class="sheet">
-    <h3 style="font-size:1.5rem;">Wonder Book Club — Week 1 Pack</h3>
-    <p>Meeting Auggie — everything you need to prep and photocopy for the week.</p>
-    <p><b>Learning Intention:</b> ${week1.learningIntention}</p>
-    <p><b>Success Criteria:</b> ${week1.successCriteria}</p>
+    <h3 style="font-size:1.5rem;">Wonder Book Club — Week ${weekN} Pack</h3>
+    <p>${WEEKS_META.find(w=>w.n===weekN).title} — everything you need to prep and photocopy for the week.</p>
+    <p><b>Learning Intention:</b> ${wk.learningIntention}</p>
+    <p><b>Success Criteria:</b> ${wk.successCriteria}</p>
     ${nzcBoxHTML()}
   </div>`;
   dayOrder.forEach(key=>{
-    out += `<div class="page-break">${lessonPlanSheetHTML(key)}</div>`;
-    const d = week1[key];
+    out += `<div class="page-break">${lessonPlanSheetHTML(weekN, key)}</div>`;
+    const d = wk[key];
     if(d.mode==='group'){
-      out += `<div class="page-break">${worksheetSheetHTML(d)}</div>`;
+      out += `<div class="page-break">${worksheetSheetHTML(d, weekN)}</div>`;
     }
   });
-  out += `<div class="page-break">${projectsPrintHTML()}</div>`;
-  out += `<div class="page-break">${quizPrintHTML(false)}</div>`;
+  out += `<div class="page-break">${projectsPrintHTML(weekN)}</div>`;
+  out += `<div class="page-break">${quizPrintHTML(weekN, false)}</div>`;
   out += `<div class="page-break sheet"><h3>Teacher Appendix — Quiz Answer Key</h3></div>`;
-  out += `<div class="page-break">${quizPrintHTML(true)}</div>`;
+  out += `<div class="page-break">${quizPrintHTML(weekN, true)}</div>`;
   return out;
 }
 
@@ -1010,17 +1497,35 @@ function printBlankRubric(){
   openPrint(html);
 }
 
+function printCertificate(){
+  const border = IMG().certificateBorder;
+  const badge = IMG().choiceKindBadge;
+  const html = `
+    <div class="cert-page" style="${border ? `background-image:url('${border}');` : ''}">
+      <div class="cert-inner">
+        <div class="cert-title">Certificate of Choosing Kind</div>
+        <div class="cert-sub">is proudly awarded to</div>
+        <div class="cert-name-line">&nbsp;</div>
+        <div class="cert-sub" style="margin-top:10px;">for the kindness, courage and effort shown throughout our<br><em>Wonder</em> book study this term.</div>
+        ${badge ? `<img class="cert-badge" src="${badge}" alt="">` : ''}
+        <div class="cert-footer">
+          <span>Date: ___________________</span>
+          <span>Teacher: ___________________</span>
+        </div>
+      </div>
+    </div>`;
+  openPrint(html);
+}
+
 /* init */
-document.getElementById('liText').textContent = week1.learningIntention;
-document.getElementById('scText').textContent = week1.successCriteria;
 renderRubricTable();
-document.getElementById('printLessonBtn').addEventListener('click', ()=>printLessonPlan(currentDay));
+document.getElementById('printLessonBtn').addEventListener('click', printLessonPlan);
 document.getElementById('printPackBtn').addEventListener('click', ()=>openPrint(weekPackHTML()));
 document.getElementById('printRubricBtn').addEventListener('click', printBlankRubric);
 document.getElementById('downloadScheduleBtn').addEventListener('click', downloadReadingSchedule);
-selectDay('mon');
+document.getElementById('downloadTeacherPackBtn').addEventListener('click', downloadTeacherPack);
+goToWeek(1);
 </script>
-<script src="wonder-images.js"></script>
 <script>
 (function(){
   var IMG = window.WONDER_IMAGES || {};
